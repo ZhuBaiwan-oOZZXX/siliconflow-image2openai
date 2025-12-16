@@ -3,7 +3,7 @@
 一个将 SiliconFlow 图像生成 API 适配为 OpenAI 格式的代理服务。通过此 python 脚本，您可以使用熟悉的 OpenAI 格式来调用 SiliconFlow 的图像生成服务。
 
 > [!WARNING]
-> 当前适配器主要支持 [siliconflow.cn](https://www.siliconflow.cn)（中国国内站点），尚未测试过 [siliconflow.com](https://www.siliconflow.com)（国际站），请自行测试！
+> 当前脚本支持 [siliconflow.cn](https://www.siliconflow.cn)（中国国内站点），尚未测试过 [siliconflow.com](https://www.siliconflow.com)（国际站），请自行测试！
 
 ## 支持的模型
 
@@ -17,21 +17,20 @@
 ## 模型参数官方说明
 
 > [!IMPORTANT]
-> 以下siliconflow的模型参数通过请求体直接传递，但 `prompt` 和图像参数（`image`、`image2`、`image3`）是通过大模型调用方式传递的，不是直接的API参数：
->
-> - `prompt`：通过messages中的用户消息内容提取
-> - `image/image2/image3`：通过messages中的image_url类型消息提取
+> 以下 siliconflow 的模型参数通过请求体传递，但 `prompt` 和图像参数（`image`、`image2`、`image3`）是通过提取 `messages` 中的最后一条用户消息内容和 `image_url` 中的内容，不是直接的 API 参数：
+> - `prompt`：通过 messages 中的最后一条用户消息内容提取
+> - `image/image2/image3`：通过 messages 中的 image_url 类型消息提取
 > 支持流式和非流式调用，可通过设置 `"stream": true` 参数启用流式输出模式。
 
 | 参数 | 类型 | 说明 | 值 |
 |---|---|---|---|
 | negative_prompt | string | 负面提示词 | - |
-| image_size | string | 图像分辨率（宽x高）（仅适用于Qwen/Qwen-Image和Kwai-Kolors/Kolors） | Kolor模型推荐：1024x1024, 960x1280, 768x1024, 720x1440, 720x1280<br>Qwen-Image模型推荐：1328x1328, 1664x928, 928x1664, 1472x1140, 1140x1472, 1584x1056, 1056x1584 |
+| image_size | string | 图像分辨率（宽x高）（仅适用于Qwen/Qwen-Image和Kwai-Kolors/Kolors） | Kolor模型推荐：1024x1024, 960x1280, 768x1024, 720x1440, 720x1280<br><br>Qwen-Image模型推荐：1328x1328, 1664x928, 928x1664, 1472x1140, 1140x1472, 1584x1056, 1056x1584 |
 | batch_size | integer | 输出图像数量（仅适用于Kwai-Kolors/Kolors） | 默认：1，范围：1-4 |
 | seed | integer | 随机种子 | 范围：0-9999999999 |
 | num_inference_steps | integer | 推理步数 | 默认：20，范围：1-50 |
-| guidance_scale | number | 引导比例（仅适用于Kwai-Kolors/Kolors） | 默认：7.5，范围：0-20 |
-| cfg | number | CFG值（仅适用于Qwen/Qwen-Image模型） | 范围：0.1-20 |
+| guidance_scale | number | 控制生成的图像与给定提示之间的匹配程度（仅适用于Kwai-Kolors/Kolors） | 默认：7.5，范围：0-20 |
+| cfg | number | 调整生成的输出与输入提示的紧密程度（仅适用于Qwen/Qwen-Image模型） | 范围：0.1-20 |
 
 ## 调用示例
 
