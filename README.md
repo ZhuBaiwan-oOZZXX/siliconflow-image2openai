@@ -3,7 +3,11 @@
 一个将 SiliconFlow 图像生成 API 适配为 OpenAI 格式的代理服务。通过此 python 脚本，您可以使用熟悉的 OpenAI 格式来调用 SiliconFlow 的图像生成服务。
 
 > [!WARNING]
-> 当前脚本支持 [siliconflow.cn](https://www.siliconflow.cn)（中国国内站点），尚未测试过 [siliconflow.com](https://www.siliconflow.com)（国际站），请自行测试！
+> 当前脚本支持 [siliconflow.cn](https://www.siliconflow.cn)（中国国内站点）
+> 尚未测试过 [siliconflow.com](https://www.siliconflow.com)（国际站），请自行测试！
+
+> [!TIP]
+> 除了 Python 版本外，本项目还提供了 Cloudflare Worker 版本（`worker.js`），可以直接部署到 [Cloudflare Workers](https://dash.cloudflare.com)，无需自建服务器，使用更加方便。
 
 ## 支持的模型
 
@@ -20,7 +24,7 @@
 > 以下 siliconflow 的模型参数通过请求体传递，但 `prompt` 和图像参数（`image`、`image2`、`image3`）是通过提取 `messages` 中的最后一条用户消息内容和 `image_url` 中的内容，不是直接的 API 参数：
 > - `prompt`：通过 messages 中的最后一条用户消息内容提取
 > - `image/image2/image3`：通过 messages 中的 image_url 类型消息提取
-> 支持流式和非流式调用，可通过设置 `"stream": true` 参数启用流式输出模式。
+> - 支持流式和非流式调用，可通过设置 `"stream": true` 参数启用流式输出模式
 
 | 参数 | 类型 | 说明 | 值 |
 |---|---|---|---|
