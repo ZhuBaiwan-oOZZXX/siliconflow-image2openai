@@ -1,13 +1,13 @@
 # SiliconFlow Image to OpenAI
 
-一个将 SiliconFlow 图像生成 API 适配为 OpenAI 格式的代理服务。通过此 python 脚本，您可以使用熟悉的 OpenAI 格式来调用 SiliconFlow 的图像生成服务。
+一个将 SiliconFlow 图像生成 API 适配为 OpenAI 格式的代理服务。通过一个 python 脚本，您可以使用熟悉的 `/chat/completions` 格式来调用 SiliconFlow 的图像生成服务。
 
 > [!WARNING]
-> 当前脚本支持 [siliconflow.cn](https://www.siliconflow.cn)（中国国内站点）
-> 尚未测试过 [siliconflow.com](https://www.siliconflow.com)（国际站），请自行测试！
+> 当前脚本支持 [siliconflow.cn](https://www.siliconflow.cn)（中国国内站点），[siliconflow.com](https://www.siliconflow.com)（国际站）很可能不可用。
 
 > [!TIP]
-> 除了 Python 版本外，本项目还提供了 Cloudflare Worker 版本（`worker.js`），可以直接部署到 [Cloudflare Workers](https://dash.cloudflare.com)，无需自建服务器，使用更加方便。
+> - Python 脚本运行方式：安装 `requirements.txt` 中的依赖后，运行 `main.py` 即可。
+> - 除了 Python 版本外，本项目还提供了 Cloudflare Worker 版本（`worker.js`），可以直接部署到 [Cloudflare Workers](https://dash.cloudflare.com)，无需自建服务器，使用更加方便。
 
 ## 支持的模型
 
@@ -155,11 +155,11 @@ curl -X POST http://localhost:8000/v1/chat/completions \
 
 ## Cherry Studio 中使用
 
-1. 运行`main.py`
+1. 运行 `main.py`
 2. 在设置中添加新渠道，填写 API 地址为 `http://localhost:8000`，API 密钥为硅基流动官方的密钥
-3. 点击`管理`，并添加模型（项目实现了模型列表接口）
+3. 点击 `管理`，并添加模型（项目实现了模型列表接口）
 4. 选择模型并发送对话/图片
-5. 如需添加参数，右键`助手`编辑，在`自定义参数`中添加参数
+5. 如需添加参数，右键 `助手` 编辑，在 `自定义参数` 中添加参数
 
 ![](./image/use_in_cherry.png)
 
