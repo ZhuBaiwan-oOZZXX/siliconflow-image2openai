@@ -181,20 +181,24 @@ def build_stream_response(model: str, api_result: Dict[str, Any]):
     """构建SSE流式响应"""
     chunk_id = f"chatcmpl-{uuid.uuid4().hex}"
     created = int(time.time())
-    
+
     # 提取图片URL并构建内容
     image_urls = [img["url"] for img in api_result.get("images", []) if "url" in img]
-    content = "\n".join([f"![]({url})" for url in image_urls]) if image_urls else "图像生成完成，但未返回URL。"
-    
+    content = (
+        "\n".join([f"![]({url})" for url in image_urls])
+        if image_urls
+        else "图像生成完成，但未返回URL。"
+    )
+
     # 第一个chunk: role
     yield f"data: {json.dumps({'id': chunk_id, 'object': 'chat.completion.chunk', 'created': created, 'model': model, 'choices': [{'index': 0, 'delta': {'role': 'assistant', 'content': ''}, 'finish_reason': None}]})}\n\n"
-    
+
     # 第二个chunk: content
     yield f"data: {json.dumps({'id': chunk_id, 'object': 'chat.completion.chunk', 'created': created, 'model': model, 'choices': [{'index': 0, 'delta': {'content': content}, 'finish_reason': None}]})}\n\n"
-    
+
     # 最后一个chunk: finish
     yield f"data: {json.dumps({'id': chunk_id, 'object': 'chat.completion.chunk', 'created': created, 'model': model, 'choices': [{'index': 0, 'delta': {}, 'finish_reason': 'stop', 'usage': {'prompt_tokens': 1, 'completion_tokens': 1, 'total_tokens': 2}}]})}\n\n"
-    
+
     yield "data: [DONE]\n\n"
 
 
@@ -259,8 +263,7 @@ async def chat_completions(request: Request, authorization: str = Header(None)):
     # 判断是否流式输出
     if data.get("stream", False):
         return StreamingResponse(
-            build_stream_response(model, result),
-            media_type="text/event-stream"
+            build_stream_response(model, result), media_type="text/event-stream"
         )
 
     return build_openai_response(model, user_content, result)
